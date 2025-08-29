@@ -86,7 +86,7 @@ message SendNotificationResponse {
 }
 
 message GetVersionRequest {
-  applicationType.ApplicationType applicationType = 1; // Тип приложения
+  applicationType.ApplicationType applicationType = 1; // Тип приложения (ios, android, web)
 }
 
 message GetVersionResponse {
