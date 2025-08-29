@@ -5,6 +5,7 @@ package settings;
 option go_package = "/proto";
 
 import "proto/error/error.proto";
+import "proto/enums/applicationType.proto";
 
 service SettingsEndpoint {
   // GetCurrencies получение списка валют
@@ -40,7 +41,7 @@ message Notification {
   string title = 1;    // Заголовок уведомления
   string subtitle = 2; // Подзаголовок уведомления
   string message = 3;  // Сообщение уведомления
-  int32 badgeCount = 4; // Индикатор какое значение показывать в бадже
+  uint32 badgeCount = 4; // Индикатор какое значение показывать в бадже
 }
 
 message Version {
@@ -76,7 +77,7 @@ message UpdateCurrenciesResponse {
 
 message SendNotificationRequest {
   string accessToken = 1;        // Токен доступа
-  int32 userID = 2;              // Идентификатор пользователя
+  bytes userID = 2;              // Идентификатор пользователя
   Notification notification = 3; // Данные уведомления
 }
 
@@ -85,6 +86,7 @@ message SendNotificationResponse {
 }
 
 message GetVersionRequest {
+  applicationType.ApplicationType applicationType = 1; // Тип приложения
 }
 
 message GetVersionResponse {

@@ -1,0 +1,6 @@
+GRPC {{host}}/tag.TagEndpoint/GetTags
+
+{
+    "accessToken": "{{accessToken}}",
+    "accountGroupIDs": ["VG5+LajIT8aIvHu0j3kvOQ=="]
+}

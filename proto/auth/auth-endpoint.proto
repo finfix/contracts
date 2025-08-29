@@ -37,13 +37,15 @@ message DeviceInformation {
   string modelName = 2;          // Название модели
   osType.OSType nameOS = 3;     // Название операционной системы
   string versionOS = 4;          // Версия операционной системы
+  string ipAddress = 5;        // IP адрес
 }
 
 message SignInRequest {
   string email = 1;    // Электронная почта пользователя
   string password = 2; // Пароль пользователя
-  optional ApplicationInformation application = 3; // Информация о приложении
-  optional DeviceInformation device = 4;           // Информация о девайсе
+  ApplicationInformation application = 3; // Информация о приложении
+  DeviceInformation device = 4;           // Информация о девайсе
+  string deviceID = 5;         // Идентификатор устройства
 }
 
 message SignInResponse {
@@ -56,8 +58,9 @@ message SignUpRequest {
   string name = 1;     // Имя пользователя
   string email = 2;    // Электронная почта пользователя
   string password = 3; // Пароль пользователя
-  optional ApplicationInformation application = 4; // Информация о приложении
-  optional DeviceInformation device = 5;           // Информация о девайсе
+  ApplicationInformation application = 4; // Информация о приложении
+  DeviceInformation device = 5;           // Информация о девайсе
+  string deviceID = 6;         // Идентификатор устройства
 }
 
 message SignUpResponse {

@@ -1,0 +1,23 @@
+GRPC {{host}}/account.AccountEndpoint/CreateAccount
+
+{
+  "accessToken": "{{accessToken}}",
+  "id": "2xxxddG3RB6rwdnB7/oJ0A==",
+  "datetimeCreate": "2024-06-01T12:00:00Z",
+  "name": "test",
+  "currency": "RUB",
+  "accountGroupID": "VG5+LajIT8aIvHu0j3kvOQ==",
+  "accountingInCharts": false,
+  "accountingInHeader": false,
+  "budget": {
+      "amount": 0,
+      "daysOffset": 0,
+      "fixedSum": 0,
+      "gradualFilling": false
+  },
+  "iconID": "hcvUmyycRYm4Z8Xg5fTzGQ==",
+  "isParent": false,
+  "parentAccountID": "",
+  "remainder": 0,
+  "type": "Expense"
+}

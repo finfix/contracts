@@ -1,5 +1,0 @@
-GRPC {{host}}/server.ServerEndpoint/GetServers
-
-{
-  "accessToken": "{{accessToken}}"
-}

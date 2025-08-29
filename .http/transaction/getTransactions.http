@@ -1,0 +1,12 @@
+GRPC {{host}}/transaction.TransactionEndpoint/GetTransactions
+
+{
+    "accessToken": "{{accessToken}}",
+    "type": null,
+    "accountGroupIDs": [],
+    "dateFrom": null,
+    "accountID": null,
+    "dateTo": null,
+    "limit": null,
+    "offset": null
+}

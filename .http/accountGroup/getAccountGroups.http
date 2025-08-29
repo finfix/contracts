@@ -1,0 +1,6 @@
+GRPC {{host}}/accountGroup.AccountGroupEndpoint/GetAccountGroups
+
+{
+  "accessToken": "{{accessToken}}",
+  "accountGroupIDs": []
+}

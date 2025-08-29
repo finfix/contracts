@@ -1,0 +1,9 @@
+GRPC {{host}}/accountGroup.AccountGroupEndpoint/CreateAccountGroup
+
+{
+  "accessToken": "{{accessToken}}",
+  "currency": "RUB",
+  "datetimeCreate": "2024-06-10T12:00:00Z",
+  "id": "VG5+LajIT8aIvHu0j3kvOQ==",
+  "name": "test"
+}

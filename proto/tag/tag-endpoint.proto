@@ -27,13 +27,13 @@ service TagEndpoint {
 message Tag {
   bytes id = 1;                                   // Идентификатор подкатегории
   string name = 2;                                // Название подкатегории
-  int32 accountGroupID = 3;                       // Идентификатор группы счетов
+  bytes accountGroupID = 3;                       // Идентификатор группы счетов
   google.protobuf.Timestamp datetimeCreate = 4;  // Дата и время создания
 }
 
 message GetTagsRequest {
   string accessToken = 1;            // Токен доступа
-  repeated int32 accountGroupIDs = 2; // Идентификаторы групп счетов
+  repeated bytes accountGroupIDs = 2; // Идентификаторы групп счетов
 }
 
 message GetTagsResponse {
@@ -43,14 +43,14 @@ message GetTagsResponse {
 
 message CreateTagRequest {
   string accessToken = 1;                        // Токен доступа
-  string name = 2;                               // Название подкатегории
-  int32 accountGroupID = 3;                      // Идентификатор группы счетов
-  google.protobuf.Timestamp datetimeCreate = 4; // Дата создания подкатегории
+  bytes id = 2;                                  // Идентификатор подкатегории
+  string name = 3;                               // Название подкатегории
+  bytes accountGroupID = 4;                      // Идентификатор группы счетов
+  google.protobuf.Timestamp datetimeCreate = 5; // Дата создания подкатегории
 }
 
 message CreateTagResponse {
   optional error.Error error = 1; // Объект ошибки
-  optional bytes id = 2;          // Идентификатор подкатегории
 }
 
 message UpdateTagRequest {
@@ -72,10 +72,18 @@ message DeleteTagResponse {
   optional error.Error error = 1; // Объект ошибки
 }
 
+message TagToTransaction {
+  bytes tagID = 1;         // Идентификатор подкатегории
+  bytes transactionID = 2; // Идентификатор транзакции
+}
+
 message GetTagsToTransactionsRequest {
-  string accessToken = 1; // Токен доступа
+  string accessToken = 1;             // Токен доступа
+  repeated bytes accountGroupIDs = 2; // Идентификаторы групп счетов
+  repeated bytes transactionIDs = 3;  // Идентификаторы транзакций
 }
 
 message GetTagsToTransactionsResponse {
-  optional error.Error error = 1; // Объект ошибки
+  optional error.Error error = 1;              // Объект ошибки
+  repeated TagToTransaction tagsToTransactions = 2; // Связи между подкатегориями и транзакциями
 }

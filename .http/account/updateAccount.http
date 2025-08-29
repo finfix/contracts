@@ -1,0 +1,21 @@
+GRPC {{host}}/account.AccountEndpoint/UpdateAccount
+
+{
+    "accessToken": "{{accessToken}}",
+    "id": "VG5+LajIT8aIvHu0j3kvOQ==",
+    "name": null,
+    "currency": null,
+    "serialNumber": null,
+    "visible": null,
+    "accountingInCharts": null,
+    "accountingInHeader": null,
+    "remainder": null,
+    "parentAccountID": null,
+    "iconID": null,
+    "budget": {
+        "fixedSum": null,
+        "daysOffset": null,
+        "amount": null,
+        "gradualFilling": null
+    }
+}

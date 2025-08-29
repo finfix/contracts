@@ -1,0 +1,7 @@
+GRPC {{host}}/tag.TagEndpoint/UpdateTag
+
+{
+    "accessToken": "{{accessToken}}",
+    "id": "GwUJOcpPSE+4M4Z7on9Q/w==",
+    "name": "test2"
+}

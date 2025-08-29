@@ -1,0 +1,11 @@
+GRPC {{host}}/user.UserEndpoint/UpdateUser
+
+{
+    "accessToken": "{{accessToken}}",
+    "name": null,
+    "password": null,
+    "email": null,
+    "defaultCurrency": null,
+    "notificationToken": null,
+    "oldPassword": null
+}

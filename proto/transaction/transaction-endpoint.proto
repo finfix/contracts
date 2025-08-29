@@ -25,27 +25,27 @@ service TransactionEndpoint {
 message Transaction {
   bytes id = 1;                                      // Идентификатор транзакции
   transactionType.TransactionType type = 2;         // Тип транзакции
-  int32 accountFromID = 3;                           // Идентификатор счета списания
-  int32 accountToID = 4;                             // Идентификатор счета пополнения
+  bytes accountFromID = 3;                           // Идентификатор счета списания
+  bytes accountToID = 4;                             // Идентификатор счета пополнения
   double amountFrom = 5;                             // Сумма сделки в первой валюте
   double amountTo = 6;                               // Сумма сделки во второй валюте
-  string dateTransaction = 7;                        // Дата транзакции (пользовательские)
+  google.protobuf.Timestamp dateTransaction = 7;                        // Дата транзакции (пользовательские)
   google.protobuf.Timestamp datetimeCreate = 8;     // Дата и время создания транзакции
   bool isExecuted = 9;                               // Исполнена операция или нет
   bool accountingInCharts = 10;                      // Учитывается ли транзакция в графиках или нет
-  int32 accountGroupID = 11;                         // Идентификатор группы счетов
-  int32 createdByUserID = 12;                        // Идентификатор пользователя, создавшего транзакцию
-  optional string note = 13;                         // Заметка сделки
+  bytes accountGroupID = 11;                         // Идентификатор группы счетов
+  bytes createdByUserID = 12;                        // Идентификатор пользователя, создавшего транзакцию
+  string note = 13;                         // Заметка сделки
 }
 
 message GetTransactionsRequest {
   string accessToken = 1;                          // Токен доступа
-  repeated int32 accountGroupIDs = 2;              // Идентификаторы групп счетов
-  optional int32 accountID = 3;                    // Транзакции какого счета нас интересуют
-  optional string dateFrom = 4;                    // Дата, от которой начинать учитывать транзакции
-  optional string dateTo = 5;                      // Дата, до которой учитывать транзакции
-  optional int32 limit = 6;                        // Количество транзакций в списке для пагинации
-  optional int32 offset = 7;                       // Смещение относительно начала списка для пагинации
+  repeated bytes accountGroupIDs = 2;              // Идентификаторы групп счетов
+  optional bytes accountID = 3;                    // Транзакции какого счета нас интересуют
+  optional google.protobuf.Timestamp dateFrom = 4;                    // Дата, от которой начинать учитывать транзакции
+  optional google.protobuf.Timestamp dateTo = 5;                      // Дата, до которой учитывать транзакции
+  optional uint32 limit = 6;                        // Количество транзакций в списке для пагинации
+  optional uint32 offset = 7;                       // Смещение относительно начала списка для пагинации
   optional transactionType.TransactionType type = 8; // Тип транзакции
 }
 
@@ -56,37 +56,37 @@ message GetTransactionsResponse {
 
 message CreateTransactionRequest {
   string accessToken = 1;                         // Токен доступа
-  int32 accountFromID = 2;                        // Идентификатор счета списания
-  int32 accountToID = 3;                          // Идентификатор счета пополнения
-  int32 accountGroupID = 4;                       // Идентификатор группы счетов
-  double amountFrom = 5;                          // Сумма списания с первого счета
-  double amountTo = 6;                            // Сумма пополнения второго счета (в случаях меж валютной транзакции цифры отличаются)
-  string dateTransaction = 7;                     // Дата транзакции
-  google.protobuf.Timestamp datetimeCreate = 8;  // Дата создания транзакции
-  bool isExecuted = 9;                            // Исполнена операция или нет (если нет, сделки как бы не существует)
-  bool accountingInCharts = 10;                   // Учитывается ли транзакция в графиках или нет
-  transactionType.TransactionType type = 11;     // Тип транзакции
-  optional string note = 12;                      // Заметка для транзакции
-  repeated int32 tagIDs = 13;                     // Идентификаторы тегов
+  bytes id = 2;                                   // Идентификатор транзакции
+  bytes accountFromID = 3;                        // Идентификатор счета списания
+  bytes accountToID = 4;                          // Идентификатор счета пополнения
+  bytes accountGroupID = 5;                       // Идентификатор группы счетов
+  double amountFrom = 6;                          // Сумма списания с первого счета
+  double amountTo = 7;                            // Сумма пополнения второго счета (в случаях меж валютной транзакции цифры отличаются)
+  google.protobuf.Timestamp dateTransaction = 8;                     // Дата транзакции
+  google.protobuf.Timestamp datetimeCreate = 9;  // Дата создания транзакции
+  bool isExecuted = 10;                            // Исполнена операция или нет (если нет, сделки как бы не существует)
+  bool accountingInCharts = 11;                   // Учитывается ли транзакция в графиках или нет
+  transactionType.TransactionType type = 12;     // Тип транзакции
+  string note = 13;                      // Заметка для транзакции
+  repeated bytes tagIDs = 14;                     // Идентификаторы тегов
 }
 
 message CreateTransactionResponse {
   optional error.Error error = 1; // Объект ошибки
-  optional bytes id = 2;          // Идентификатор транзакции
 }
 
 message UpdateTransactionRequest {
   string accessToken = 1;                            // Токен доступа
   bytes id = 2;                                      // Идентификатор транзакции
-  optional int32 accountFromID = 3;                  // Идентификатор счета списания
-  optional int32 accountToID = 4;                    // Идентификатор счета пополнения
+  optional bytes accountFromID = 3;                  // Идентификатор счета списания
+  optional bytes accountToID = 4;                    // Идентификатор счета пополнения
   optional double amountFrom = 5;                    // Сумма списания с первого счета
   optional double amountTo = 6;                      // Сумма пополнения второго счета
-  optional string dateTransaction = 7;               // Дата транзакции
+  optional google.protobuf.Timestamp dateTransaction = 7;               // Дата транзакции
   optional bool isExecuted = 8;                      // Исполнена операция или нет (если нет, сделки как бы не существует)
   optional bool accountingInCharts = 9;              // Учитывается ли транзакция в графиках или нет
   optional string note = 10;                         // Заметка для транзакции
-  repeated int32 tagIDs = 11;                        // Идентификаторы тегов
+  repeated bytes tagIDs = 11;                        // Идентификаторы тегов
 }
 
 message UpdateTransactionResponse {

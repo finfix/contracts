@@ -1,0 +1,9 @@
+GRPC {{host}}/tag.TagEndpoint/CreateTag
+
+{
+  "accessToken": "{{accessToken}}",
+  "id": "2xxxddG3RB6rwdnB7/oJ0A==",
+  "datetimeCreate": "2024-06-01T12:00:00Z",
+  "accountGroupID": "VG5+LajIT8aIvHu0j3kvOQ==",
+  "name": "test"
+}

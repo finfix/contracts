@@ -1,0 +1,6 @@
+GRPC {{host}}/transaction.TransactionEndpoint/DeleteTransaction
+
+{
+  "accessToken": "{{accessToken}}",
+  "id": "VG5+LajIT8aIvHu0j3kvOQ=="
+}

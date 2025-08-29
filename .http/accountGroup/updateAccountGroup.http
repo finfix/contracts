@@ -1,0 +1,10 @@
+GRPC {{host}}/accountGroup.AccountGroupEndpoint/UpdateAccountGroup
+
+{
+  "accessToken": "{{accessToken}}",
+  "id": "VG5+LajIT8aIvHu0j3kvOQ==",
+  "name": null,
+  "currency": null,
+  "serialNumber": null,
+  "visible": null
+}

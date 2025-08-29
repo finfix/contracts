@@ -1,0 +1,19 @@
+GRPC {{host}}/auth.AuthEndpoint/SignUp
+
+{
+  "application": {
+    "build": "1",
+    "bundleID": "1",
+    "version": "1"
+  },
+  "device": {
+    "deviceName": "ide",
+    "modelName": "ide",
+    "nameOS": "Android",
+    "versionOS": "ide"
+  },
+  "email": "tester@test.stest",
+  "password": "test",
+  "name": "Ilia",
+  "deviceID": "123425"
+}

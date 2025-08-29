@@ -1,0 +1,6 @@
+GRPC {{host}}/account.AccountEndpoint/DeleteAccount
+
+{
+  "accessToken": "{{accessToken}}",
+  "id": "VG5+LajIT8aIvHu0j3kvOQ=="
+}

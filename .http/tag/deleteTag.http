@@ -1,0 +1,6 @@
+GRPC {{host}}/tag.TagEndpoint/DeleteTag
+
+{
+  "accessToken": "{{accessToken}}",
+  "id": "Foch0oV+RLGXSLGlrgTAkg=="
+}

@@ -1,5 +1,0 @@
-GRPC {{host}}/user.UserEndpoint/GetCurrentUser
-
-{
-  "accessToken": "{{accessToken}}"
-}

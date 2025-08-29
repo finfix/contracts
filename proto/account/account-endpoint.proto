@@ -23,10 +23,10 @@ service AccountEndpoint {
 }
 
 message AccountBudget {
-  optional double amount = 1;           // Сумма бюджета
-  optional int32 daysOffset = 2;        // Смещение в днях
-  optional double fixedSum = 3;         // Фиксированная сумма
-  optional bool gradualFilling = 4;     // Постепенное пополнение
+  double amount = 1;           // Сумма бюджета
+  uint32 daysOffset = 2;        // Смещение в днях
+  double fixedSum = 3;         // Фиксированная сумма
+  bool gradualFilling = 4;     // Постепенное пополнение
 }
 
 message Account {
@@ -38,23 +38,23 @@ message Account {
   bool visible = 6;                                // Видимость счета
   bool accountingInCharts = 7;                     // Учитывать ли счет в графиках
   bool accountingInHeader = 8;                     // Будет ли счет учитываться в шапке
-  int32 accountGroupID = 9;                        // Идентификатор группы счета
-  int32 parentAccountID = 10;                      // Идентификатор родительского аккаунта
+  bytes accountGroupID = 9;                        // Идентификатор группы счета
+  bytes parentAccountID = 10;                      // Идентификатор родительского аккаунта
   bool isParent = 11;                              // Является ли счет родительским
-  int32 iconID = 12;                               // Идентификатор иконки
-  int32 serialNumber = 13;                         // Порядковый номер счета
-  int32 createdByUserID = 14;                      // Идентификатор пользователя, создавшего счет
+  bytes iconID = 12;                               // Идентификатор иконки
+  uint32 serialNumber = 13;                         // Порядковый номер счета
+  bytes createdByUserID = 14;                      // Идентификатор пользователя, создавшего счет
   google.protobuf.Timestamp datetimeCreate = 15;  // Дата и время создания счета
   optional AccountBudget budget = 16;              // Бюджет
 }
 
 message GetAccountsRequest {
   string accessToken = 1;                        // Токен доступа
-  repeated int32 accountGroupIDs = 2;            // Идентификаторы групп счетов
+  repeated bytes accountGroupIDs = 2;            // Идентификаторы групп счетов
   optional bool accountingInCharts = 3;          // Учитывать ли счет в графиках
   optional bool accountingInHeader = 4;          // Учитывать ли счет в шапке
-  optional string dateFrom = 5;                  // Дата начала выборки
-  optional string dateTo = 6;                    // Дата конца выборки
+  optional google.protobuf.Timestamp dateFrom = 5;                  // Дата начала выборки
+  optional google.protobuf.Timestamp dateTo = 6;                    // Дата конца выборки
   optional accountType.AccountType type = 7;    // Тип счета
   optional bool visible = 8;                     // Видимость счета
 }
@@ -66,27 +66,27 @@ message GetAccountsResponse {
 
 message CreateAccountRequest {
   string accessToken = 1;                      // Токен доступа
-  string name = 2;                             // Название счета
-  accountType.AccountType type = 3;           // Тип счета
-  string currency = 4;                         // Валюта счета
-  int32 accountGroupID = 5;                    // Группа счета
-  bool accountingInCharts = 6;                 // Учитывать ли счет в графиках
-  bool accountingInHeader = 7;                 // Подсчет суммы счета в статистике
-  int32 iconID = 8;                            // Идентификатор иконки
-  bool isParent = 9;                           // Является ли счет родительским
-  google.protobuf.Timestamp datetimeCreate = 10; // Дата создания счета
-  optional int32 parentAccountID = 11;         // Идентификатор родительского счета
-  optional double remainder = 12;              // Остаток средств на счету
-  optional AccountBudget budget = 13;          // Бюджет
+  bytes id = 2;                                // Идентификатор счета
+  string name = 3;                             // Название счета
+  accountType.AccountType type = 4;           // Тип счета
+  string currency = 5;                         // Валюта счета
+  bytes accountGroupID = 6;                    // Группа счета
+  bool accountingInCharts = 7;                 // Учитывать ли счет в графиках
+  bool accountingInHeader = 8;                 // Подсчет суммы счета в статистике
+  bytes iconID = 9;                            // Идентификатор иконки
+  bool isParent = 10;                           // Является ли счет родительским
+  google.protobuf.Timestamp datetimeCreate = 11; // Дата создания счета
+  optional bytes parentAccountID = 12;         // Идентификатор родительского счета
+  optional double remainder = 13;              // Остаток средств на счету
+  optional AccountBudget budget = 14;          // Бюджет
 }
 
 message CreateAccountResponse {
   optional error.Error error = 1;              // Объект ошибки
-  optional bytes id = 2;                       // Идентификатор созданного счета
-  optional int32 serialNumber = 3;             // Порядковый номер счета
-  optional int32 balancingAccountID = 4;       // Идентификатор балансировочного счета
-  optional int32 balancingAccountSerialNumber = 5; // Порядковый номер балансировочного счета
-  optional int32 balancingTransactionID = 6;   // Идентификатор транзакции балансировки
+  optional uint32 serialNumber = 2;             // Порядковый номер счета
+  optional bytes balancingAccountID = 3;       // Идентификатор балансировочного счета
+  optional uint32 balancingAccountSerialNumber = 4; // Порядковый номер балансировочного счета
+  optional bytes balancingTransactionID = 5;   // Идентификатор транзакции балансировки
 }
 
 message UpdateAccountRequest {
@@ -95,13 +95,20 @@ message UpdateAccountRequest {
   optional string name = 3;                   // Название счета
   optional bool accountingInCharts = 4;       // Будет ли счет учитываться в графиках
   optional bool accountingInHeader = 5;       // Будет ли счет учитываться в статистике
-  optional string currencyCode = 6;           // Валюта счета
-  optional int32 iconID = 7;                  // Идентификатор иконки
-  optional int32 parentAccountID = 8;         // Идентификатор родительского счета
+  optional string currency = 6;           // Валюта счета
+  optional bytes iconID = 7;                  // Идентификатор иконки
+  optional bytes parentAccountID = 8;         // Идентификатор родительского счета
   optional double remainder = 9;              // Остаток средств на счету
-  optional int32 serialNumber = 10;           // Порядковый номер счета
+  optional uint32 serialNumber = 10;           // Порядковый номер счета
   optional bool visible = 11;                 // Видимость счета
-  optional AccountBudget budget = 12;         // Месячный бюджет
+  UpdateAccountBudgetRequest budget = 12;         // Месячный бюджет
+}
+
+message UpdateAccountBudgetRequest {
+  optional double amount = 1;           // Сумма бюджета
+  optional uint32 daysOffset = 2;        // Смещение в днях
+  optional double fixedSum = 3;         // Фиксированная сумма
+  optional bool gradualFilling = 4;     // Постепенное пополнение
 }
 
 message UpdateAccountResponse {

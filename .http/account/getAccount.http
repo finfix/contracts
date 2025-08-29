@@ -1,0 +1,12 @@
+GRPC {{host}}/account.AccountEndpoint/GetAccounts
+
+{
+    "accessToken": "{{accessToken}}",
+    "type": null,
+    "accountingInHeader": null,
+    "accountingInCharts": null,
+    "accountGroupIDs": null,
+    "visible": null,
+    "dateFrom": "2023-01-01T00:00:00Z",
+    "dateTo": "2024-12-31T23:59:59Z"
+}

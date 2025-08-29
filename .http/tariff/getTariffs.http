@@ -1,5 +1,0 @@
-GRPC {{host}}/tariff.TariffEndpoint/GetTariffs
-
-{
-  "accessToken": "{{accessToken}}"
-}

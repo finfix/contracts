@@ -1,0 +1,15 @@
+GRPC {{host}}/transaction.TransactionEndpoint/UpdateTransaction
+
+{
+    "accessToken": "{{accessToken}}",
+    "id": "GwUJOcpPSE+4M4Z7on9Q/w==",
+    "tagIDs": [],
+    "accountingInCharts": null,
+    "amountFrom": null,
+    "amountTo": null,
+    "isExecuted": null,
+    "note": null,
+    "dateTransaction": null,
+    "accountFromID": null,
+    "accountToID": null
+}

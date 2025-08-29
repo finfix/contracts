@@ -1,0 +1,6 @@
+GRPC {{host}}/accountGroup.AccountGroupEndpoint/DeleteAccountGroup
+
+{
+  "accessToken": "{{accessToken}}",
+  "id": "VG5+LajIT8aIvHu0j3kvOQ=="
+}
