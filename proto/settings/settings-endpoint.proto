@@ -64,7 +64,7 @@ message GetIconsRequest {
 
 message GetIconsResponse {
   optional error.Error error = 1; // Объект ошибки
-  repeated Icon icons = 2;         // Список иконок
+  repeated Icon icons = 2;        // Список иконок
 }
 
 message UpdateCurrenciesRequest {
@@ -77,7 +77,7 @@ message UpdateCurrenciesResponse {
 
 message SendNotificationRequest {
   string accessToken = 1;        // Токен доступа
-  bytes userID = 2;              // Идентификатор пользователя
+  bytes userID = 2;              // Идентификатор пользователя, которому отправить уведомление
   Notification notification = 3; // Данные уведомления
 }
 

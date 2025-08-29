@@ -48,14 +48,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-#      - name: Clone Repository
-#        uses: ./.github/actions/clone-repos
-#        with:
-#          token: ${{ secrets.PAT_TOKEN }}
-#          user: ${{ env.USER }}
-#          artifact-name: ${{ env.CLIENT_ARTIFACT_NAME }}
-#          repo-path: ${{ env.CLIENT_GRPC_REPO_PATH }}
-#          repo-url: ${{ env.CLIENT_GRPC_REPO_URL }}
+      - name: Clone Repository
+        uses: ./.github/actions/clone-repos
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          user: ${{ env.USER }}
+          artifact-name: ${{ env.CLIENT_ARTIFACT_NAME }}
+          repo-path: ${{ env.CLIENT_GRPC_REPO_PATH }}
+          repo-url: ${{ env.CLIENT_GRPC_REPO_URL }}
 
   server-build:
     name: Build Go Server
@@ -73,19 +73,19 @@ jobs:
           artifact-name-with-proto: ${{ env.SERVER_ARTIFACT_NAME_WITH_PROTO }}
 
   client-build:
-    name: Build Vue Client
+    name: Build Swift Client
     needs: [clone-server-grpc-repo, clone-client-grpc-repo]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-#      - name: Build Vue Client
-#        uses: ./.github/actions/ts-client-build
-#        with:
-#          proto-path: './proto/*/*.proto'
-#          repo-path: ${{ env.CLIENT_GRPC_REPO_PATH }}
-#          artifact-name: ${{ env.CLIENT_ARTIFACT_NAME }}
-#          artifact-name-with-proto: ${{ env.CLIENT_ARTIFACT_NAME_WITH_PROTO }}
+      - name: Build Swift Client
+        uses: ./.github/actions/swift-client-build
+        with:
+          proto-path: './proto/*/*.proto'
+          repo-path: ${{ env.CLIENT_GRPC_REPO_PATH }}
+          artifact-name: ${{ env.CLIENT_ARTIFACT_NAME }}
+          artifact-name-with-proto: ${{ env.CLIENT_ARTIFACT_NAME_WITH_PROTO }}
 
   commit-server:
     name: Push Go Server Changes
@@ -105,18 +105,18 @@ jobs:
           user-name: ${{ env.PUSH_USER_NAME }}
 
   commit-client:
-    name: Push Vue Client Changes
+    name: Push Swift Client Changes
     needs: [server-build, client-build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-#      - name: Commit Changes to Vue Client
-#        uses: ./.github/actions/commit-changes
-#        with:
-#          repo-path: ${{ env.CLIENT_GRPC_REPO_PATH }}
-#          artifact-name: ${{ env.CLIENT_ARTIFACT_NAME_WITH_PROTO }}
-#          commit-sha: ${{ github.sha }}
-#          tag-version: ${{ github.ref_name }}
-#          user-email: ${{ env.PUSH_USER_EMAIL }}
-#          user-name: ${{ env.PUSH_USER_NAME }}
+      - name: Commit Changes to Swift Client
+        uses: ./.github/actions/commit-changes
+        with:
+          repo-path: ${{ env.CLIENT_GRPC_REPO_PATH }}
+          artifact-name: ${{ env.CLIENT_ARTIFACT_NAME_WITH_PROTO }}
+          commit-sha: ${{ github.sha }}
+          tag-version: ${{ github.ref_name }}
+          user-email: ${{ env.PUSH_USER_EMAIL }}
+          user-name: ${{ env.PUSH_USER_NAME }}

@@ -1,12 +1,12 @@
-name: 'TypeScript Client Build'
-description: 'Builds TypeScript client from proto files'
+name: 'Swift Client Build'
+description: 'Builds Swift client from proto files'
 
 inputs:
   proto-path:
     description: 'Path to proto files'
     required: true
   repo-path:
-    description: 'Path to output directory for generated TypeScript files'
+    description: 'Path to output directory for generated Swift files'
     required: true
   artifact-name:
     description: 'Name of the artifact to upload'
@@ -18,39 +18,34 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        
-    - name: Install protoc
+    - name: Install protoc and Swift plugin
       shell: bash
       run: |
         sudo apt-get update
-        sudo apt-get install -y protobuf-compiler
-        
-    - name: Install dependencies
-      shell: bash
-      run: |
-        npm install --save-dev @protobuf-ts/plugin
-        npm install @protobuf-ts/runtime
+        sudo apt-get install -y protobuf-compiler git curl unzip
+
+        # Install protoc-gen-swift
+        curl -L -o protoc-gen-swift.zip https://github.com/apple/swift-protobuf/archive/refs/tags/1.31.0.zip
+        unzip protoc-gen-swift.zip -d protoc-gen-swift
+        sudo mv protoc-gen-swift/protoc-gen-swift /usr/local/bin/
+        chmod +x /usr/local/bin/protoc-gen-swift
 
     - name: Download artifacts
       uses: actions/download-artifact@v4
       with:
         name: ${{ inputs.artifact-name }}
         path: ${{ inputs.repo-path }}
-      
-    - name: Generate TypeScript files from proto
+
+    - name: Generate Swift files from proto
       shell: bash
       run: |
+        mkdir -p ${{ inputs.repo-path }}
         protoc \
           -I ./ \
           --experimental_allow_proto3_optional \
-          --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts \
-          --ts_out=${{ inputs.repo-path }} \
+          --swift_out=${{ inputs.repo-path }} \
           ${{ inputs.proto-path }}
-          
+
     - name: Upload generated files
       uses: actions/upload-artifact@v4
       with:
