@@ -1,0 +1,11 @@
+GRPC {{host}}/tariff.TariffEndpoint/UpdateTariff
+
+{
+  "accessToken": "{{accessToken}}",
+  "id": "38e76fb1-d308-477e-bf7c-96b44edb7e66",
+  "currency": null,
+  "price": null,
+  "periodName": null,
+  "periodDays": null,
+  "isPopular": true
+}

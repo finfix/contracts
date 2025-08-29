@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package currency;
+
+option go_package = "/proto";
+
+enum Currency {
+  Unspecified = 0;
+  RUB = 1;
+  USD = 2;
+}

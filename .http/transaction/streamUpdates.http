@@ -1,0 +1,6 @@
+GRPC {{host}}/transaction.TransactionEndpoint/StreamUpdates
+
+{
+  "accessToken": "{{accessToken}}",
+  "id": "13a438e2-eed1-4780-a561-cbc2ab2d144e"
+}

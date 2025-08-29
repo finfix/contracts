@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package settings;
+
+option go_package = "/proto";
+
+import "proto/error/error.proto";
+
+service SettingsEndpoint {
+  // GetCurrencies получение списка валют
+  rpc GetCurrencies (GetCurrenciesRequest) returns (GetCurrenciesResponse) {}
+
+  // GetIcons получение иконок с их адресами
+  rpc GetIcons (GetIconsRequest) returns (GetIconsResponse) {}
+
+  // UpdateCurrencies обновление курсов валют
+  rpc UpdateCurrencies (UpdateCurrenciesRequest) returns (UpdateCurrenciesResponse) {}
+
+  // SendNotification отправка уведомления пользователю
+  rpc SendNotification (SendNotificationRequest) returns (SendNotificationResponse) {}
+
+  // GetVersion получение текущей версии сервера
+  rpc GetVersion (GetVersionRequest) returns (GetVersionResponse) {}
+}
+
+message Currency {
+  string isoCode = 1; // Сигнатура валюты
+  string name = 2;    // Название валюты
+  string symbol = 3;  // Символ валюты
+  double rate = 4;    // Курс валюты
+}
+
+message Icon {
+  int32 id = 1;    // ID иконки
+  string name = 2; // Название иконки
+  string url = 3;  // URL иконки
+}
+
+message Notification {
+  string title = 1;    // Заголовок уведомления
+  string subtitle = 2; // Подзаголовок уведомления
+  string message = 3;  // Сообщение уведомления
+  int32 badgeCount = 4; // Индикатор какое значение показывать в бадже
+}
+
+message Version {
+  string version = 1; // Версия приложения
+  string build = 2;   // Номер сборки
+}
+
+message GetCurrenciesRequest {
+  string accessToken = 1; // Токен доступа
+}
+
+message GetCurrenciesResponse {
+  optional error.Error error = 1; // Объект ошибки
+  repeated Currency currencies = 2; // Список валют
+}
+
+message GetIconsRequest {
+  string accessToken = 1; // Токен доступа
+}
+
+message GetIconsResponse {
+  optional error.Error error = 1; // Объект ошибки
+  repeated Icon icons = 2;         // Список иконок
+}
+
+message UpdateCurrenciesRequest {
+  string accessToken = 1; // Токен доступа
+}
+
+message UpdateCurrenciesResponse {
+  optional error.Error error = 1; // Объект ошибки
+}
+
+message SendNotificationRequest {
+  string accessToken = 1;        // Токен доступа
+  int32 userID = 2;              // Идентификатор пользователя
+  Notification notification = 3; // Данные уведомления
+}
+
+message SendNotificationResponse {
+  optional error.Error error = 1; // Объект ошибки
+}
+
+message GetVersionRequest {
+}
+
+message GetVersionResponse {
+  optional error.Error error = 1; // Объект ошибки
+  optional Version version = 2;    // Версия сервера
+}

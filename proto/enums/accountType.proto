@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package accountType;
+
+option go_package = "/proto";
+
+enum AccountType {
+  Unspecified = 0;
+  Regular = 1;     // Обычный счет
+  Expense = 2;     // Счет расходов
+  Debt = 3;        // Долговой счет
+  Earnings = 4;    // Счет доходов
+  Balancing = 5;   // Балансировочный счет
+}

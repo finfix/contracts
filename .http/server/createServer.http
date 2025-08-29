@@ -1,0 +1,10 @@
+GRPC {{host}}/server.ServerEndpoint/CreateServer
+
+{
+  "accessToken": "{{accessToken}}",
+  "url": "http://localhost:8080",
+  "city": "Tbilisi",
+  "country": "Georgia",
+  "isDefault": true,
+  "adminPanelURL": "http://31.97.133.213:2053"
+}

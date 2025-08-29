@@ -1,0 +1,66 @@
+name: 'Commit Changes'
+description: 'Commits and pushes changes to repository'
+
+inputs:
+  repo-path:
+    description: 'Path to repository'
+    required: true
+  commit-sha:
+    description: 'Commit SHA'
+    required: true
+  tag-version:
+    description: 'Tag version'
+    required: true
+  user-email:
+    description: 'Git user email'
+    required: true
+  user-name:
+    description: 'Git user name'
+    required: true
+  artifact-name:
+    description: 'Name of the artifact to download'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: Download Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ inputs.repo-path }}
+
+    - name: Configure Git
+      shell: bash
+      run: |
+        cd ${{ inputs.repo-path }}
+        git config --global user.email "${{ inputs.user-email }}"
+        git config --global user.name "${{ inputs.user-name }}"
+
+    - name: Clear old compiled files
+      shell: bash
+      run: |
+          cd ${{ inputs.repo-path }}
+          find . -type f -name '*.go' -exec rm -f {} +
+          find . -type f -name '*.еы' -exec rm -f {} +
+
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ inputs.repo-path }}
+
+    - name: Commit and push changes
+      shell: bash
+      run: |
+        cd ${{ inputs.repo-path }}
+        git add .
+        git commit -m "${{ inputs.commit-sha }}"
+        
+        # Create and push tag
+        git tag -a "${{ inputs.tag-version }}" -m "Release ${{ inputs.tag-version }}"
+        git push origin tag "${{ inputs.tag-version }}"
+        
+        # Push changes
+        git push -u origin main 

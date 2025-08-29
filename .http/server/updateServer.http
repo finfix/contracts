@@ -1,0 +1,11 @@
+GRPC {{host}}/server.ServerEndpoint/UpdateServer
+
+{
+  "accessToken": "{{accessToken}}",
+  "id": "3fb2440b-2d3b-412a-959b-1ad216fec68a",
+  "isDefault": true,
+  "country": null,
+  "city": null,
+  "url": null,
+  "adminPanelURL": "https://mothrfkr.com:2053/customPathForSecurity"
+}

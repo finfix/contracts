@@ -1,0 +1,6 @@
+GRPC {{host}}/server.ServerEndpoint/DeleteServer
+
+{
+  "accessToken": "{{accessToken}}",
+  "id": "d4cb075d-c963-4c4a-810a-8b561ea27576"
+}

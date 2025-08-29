@@ -1,0 +1,7 @@
+GRPC {{host}}/transaction.TransactionEndpoint/CreateTransaction
+
+{
+  "accessToken": "{{accessToken}}",
+  "paymentMethod": "YooKassa",
+  "tariffID": "d4a8f14a-07dc-4a77-80de-0184c82856b5"
+}

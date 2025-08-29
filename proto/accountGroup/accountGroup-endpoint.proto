@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package accountGroup;
+
+option go_package = "/proto";
+
+import "proto/error/error.proto";
+import "google/protobuf/timestamp.proto";
+
+service AccountGroupEndpoint {
+  // GetAccountGroups получение списка групп счетов
+  rpc GetAccountGroups (GetAccountGroupsRequest) returns (GetAccountGroupsResponse) {}
+
+  // CreateAccountGroup создание группы счетов
+  rpc CreateAccountGroup (CreateAccountGroupRequest) returns (CreateAccountGroupResponse) {}
+
+  // UpdateAccountGroup редактирование группы счетов
+  rpc UpdateAccountGroup (UpdateAccountGroupRequest) returns (UpdateAccountGroupResponse) {}
+
+  // DeleteAccountGroup удаление группы счетов
+  rpc DeleteAccountGroup (DeleteAccountGroupRequest) returns (DeleteAccountGroupResponse) {}
+}
+
+message AccountGroup {
+  int32 id = 1;                                   // Идентификатор группы счетов
+  string name = 2;                                // Название группы счетов
+  string currency = 3;                            // Валюта группы счетов
+  bool visible = 4;                               // Видимость группы счетов
+  int32 serialNumber = 5;                         // Порядковый номер группы счетов
+  google.protobuf.Timestamp datetimeCreate = 6;  // Дата и время создания группы счетов
+}
+
+message GetAccountGroupsRequest {
+  string accessToken = 1;            // Токен доступа
+  repeated int32 accountGroupIDs = 2; // Идентификаторы групп счетов
+}
+
+message GetAccountGroupsResponse {
+  optional error.Error error = 1;       // Объект ошибки
+  repeated AccountGroup accountGroups = 2; // Список групп счетов
+}
+
+message CreateAccountGroupRequest {
+  string accessToken = 1;                        // Токен доступа
+  string name = 2;                               // Название группы счетов
+  string currency = 3;                           // Валюта группы счетов
+  google.protobuf.Timestamp datetimeCreate = 4; // Дата и время создания группы счетов
+}
+
+message CreateAccountGroupResponse {
+  optional error.Error error = 1;  // Объект ошибки
+  optional int32 id = 2;            // Идентификатор созданной группы счетов
+  optional int32 serialNumber = 3;  // Порядковый номер группы счетов
+}
+
+message UpdateAccountGroupRequest {
+  string accessToken = 1;          // Токен доступа
+  int32 id = 2;                    // Идентификатор группы счетов
+  optional string name = 3;        // Название группы счетов
+  optional string currency = 4;    // Валюта группы счетов
+  optional bool visible = 5;       // Видимость группы счетов
+  optional int32 serialNumber = 6; // Порядковый номер группы счетов
+}
+
+message UpdateAccountGroupResponse {
+  optional error.Error error = 1; // Объект ошибки
+}
+
+message DeleteAccountGroupRequest {
+  string accessToken = 1; // Токен доступа
+  int32 id = 2;           // Идентификатор счета
+}
+
+message DeleteAccountGroupResponse {
+  optional error.Error error = 1; // Объект ошибки
+}

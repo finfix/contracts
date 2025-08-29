@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package transactionType;
+
+option go_package = "/proto";
+
+enum TransactionType {
+  Unspecified = 0;
+  Transfer = 1;     // Перевод между счетами
+  Consumption = 2;  // Расход
+  Balancing = 3;    // Балансировка
+  Income = 4;       // Доход
+}

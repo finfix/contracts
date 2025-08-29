@@ -1,0 +1,5 @@
+GRPC {{host}}/auth.AuthEndpoint/TelegramLogin
+
+{
+  "initData": "{{initData}}"
+}

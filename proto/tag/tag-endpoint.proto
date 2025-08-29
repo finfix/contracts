@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package tag;
+
+option go_package = "/proto";
+
+import "proto/error/error.proto";
+import "google/protobuf/timestamp.proto";
+
+service TagEndpoint {
+  // GetTags получение всех подкатегорий
+  rpc GetTags (GetTagsRequest) returns (GetTagsResponse) {}
+
+  // CreateTag создание подкатегории
+  rpc CreateTag (CreateTagRequest) returns (CreateTagResponse) {}
+
+  // UpdateTag редактирование подкатегории
+  rpc UpdateTag (UpdateTagRequest) returns (UpdateTagResponse) {}
+
+  // DeleteTag удаление подкатегории
+  rpc DeleteTag (DeleteTagRequest) returns (DeleteTagResponse) {}
+
+  // GetTagsToTransactions получение всех связей между подкатегориями и транзакциями
+  rpc GetTagsToTransactions (GetTagsToTransactionsRequest) returns (GetTagsToTransactionsResponse) {}
+}
+
+message Tag {
+  int32 id = 1;                                   // Идентификатор подкатегории
+  string name = 2;                                // Название подкатегории
+  int32 accountGroupID = 3;                       // Идентификатор группы счетов
+  google.protobuf.Timestamp datetimeCreate = 4;  // Дата и время создания
+}
+
+message GetTagsRequest {
+  string accessToken = 1;            // Токен доступа
+  repeated int32 accountGroupIDs = 2; // Идентификаторы групп счетов
+}
+
+message GetTagsResponse {
+  optional error.Error error = 1; // Объект ошибки
+  repeated Tag tags = 2;           // Список подкатегорий
+}
+
+message CreateTagRequest {
+  string accessToken = 1;                        // Токен доступа
+  string name = 2;                               // Название подкатегории
+  int32 accountGroupID = 3;                      // Идентификатор группы счетов
+  google.protobuf.Timestamp datetimeCreate = 4; // Дата создания подкатегории
+}
+
+message CreateTagResponse {
+  optional error.Error error = 1; // Объект ошибки
+  optional int32 id = 2;          // Идентификатор подкатегории
+}
+
+message UpdateTagRequest {
+  string accessToken = 1;  // Токен доступа
+  int32 id = 2;            // Идентификатор подкатегории
+  optional string name = 3; // Название подкатегории
+}
+
+message UpdateTagResponse {
+  optional error.Error error = 1; // Объект ошибки
+}
+
+message DeleteTagRequest {
+  string accessToken = 1; // Токен доступа
+  int32 id = 2;           // Идентификатор подкатегории
+}
+
+message DeleteTagResponse {
+  optional error.Error error = 1; // Объект ошибки
+}
+
+message GetTagsToTransactionsRequest {
+  string accessToken = 1; // Токен доступа
+}
+
+message GetTagsToTransactionsResponse {
+  optional error.Error error = 1; // Объект ошибки
+}
+

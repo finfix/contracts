@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "/proto";
+
+import "proto/error/error.proto";
+import "google/protobuf/timestamp.proto";
+
+service UserEndpoint {
+  // GetUser получение данных пользователя
+  rpc GetUser (GetUserRequest) returns (GetUserResponse) {}
+
+  // UpdateUser редактирование пользователя
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {}
+}
+
+message User {
+  int32 id = 1;                                   // Идентификатор пользователя
+  string name = 2;                                // Имя пользователя
+  string email = 3;                               // Электронная почта
+  string defaultCurrency = 4;                     // Валюта по умолчанию
+  google.protobuf.Timestamp timeCreate = 5;      // Дата и время создания аккаунта
+}
+
+message GetUserRequest {
+  string accessToken = 1; // Токен доступа
+}
+
+message GetUserResponse {
+  optional error.Error error = 1; // Объект ошибки
+  optional User user = 2;          // Данные пользователя
+}
+
+message UpdateUserRequest {
+  string accessToken = 1;          // Токен доступа
+  optional string name = 2;        // Имя пользователя
+  optional string email = 3;       // Электронная почта
+  optional string defaultCurrency = 4; // Валюта по умолчанию
+  optional string oldPassword = 5;  // Старый пароль
+  optional string password = 6;     // Новый пароль
+  optional string notificationToken = 7; // Токен уведомлений
+}
+
+message UpdateUserResponse {
+  optional error.Error error = 1; // Объект ошибки
+}

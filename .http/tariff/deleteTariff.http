@@ -1,0 +1,6 @@
+GRPC {{host}}/tariff.TariffEndpoint/DeleteTariff
+
+{
+  "accessToken": "{{accessToken}}",
+  "id": "f640d5c1-fdc8-46f2-aac9-5bd5ec5ca513"
+}
