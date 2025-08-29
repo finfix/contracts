@@ -23,7 +23,7 @@ service TransactionEndpoint {
 }
 
 message Transaction {
-  int32 id = 1;                                      // Идентификатор транзакции
+  bytes id = 1;                                      // Идентификатор транзакции
   transactionType.TransactionType type = 2;         // Тип транзакции
   int32 accountFromID = 3;                           // Идентификатор счета списания
   int32 accountToID = 4;                             // Идентификатор счета пополнения
@@ -72,12 +72,12 @@ message CreateTransactionRequest {
 
 message CreateTransactionResponse {
   optional error.Error error = 1; // Объект ошибки
-  optional int32 id = 2;          // Идентификатор транзакции
+  optional bytes id = 2;          // Идентификатор транзакции
 }
 
 message UpdateTransactionRequest {
   string accessToken = 1;                            // Токен доступа
-  int32 id = 2;                                      // Идентификатор транзакции
+  bytes id = 2;                                      // Идентификатор транзакции
   optional int32 accountFromID = 3;                  // Идентификатор счета списания
   optional int32 accountToID = 4;                    // Идентификатор счета пополнения
   optional double amountFrom = 5;                    // Сумма списания с первого счета
@@ -95,7 +95,7 @@ message UpdateTransactionResponse {
 
 message DeleteTransactionRequest {
   string accessToken = 1; // Токен доступа
-  int32 id = 2;           // Идентификатор транзакции
+  bytes id = 2;           // Идентификатор транзакции
 }
 
 message DeleteTransactionResponse {

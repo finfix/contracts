@@ -31,7 +31,7 @@ message Currency {
 }
 
 message Icon {
-  int32 id = 1;    // ID иконки
+  bytes id = 1;    // ID иконки
   string name = 2; // Название иконки
   string url = 3;  // URL иконки
 }

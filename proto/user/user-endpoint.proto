@@ -16,7 +16,7 @@ service UserEndpoint {
 }
 
 message User {
-  int32 id = 1;                                   // Идентификатор пользователя
+  bytes id = 1;                                   // Идентификатор пользователя
   string name = 2;                                // Имя пользователя
   string email = 3;                               // Электронная почта
   string defaultCurrency = 4;                     // Валюта по умолчанию

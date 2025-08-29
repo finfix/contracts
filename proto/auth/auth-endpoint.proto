@@ -48,7 +48,7 @@ message SignInRequest {
 
 message SignInResponse {
   optional error.Error error = 1; // Объект ошибки
-  optional int32 id = 2;           // Идентификатор пользователя
+  optional bytes id = 2;           // Идентификатор пользователя
   optional Tokens token = 3;       // Токены доступа
 }
 
@@ -62,7 +62,7 @@ message SignUpRequest {
 
 message SignUpResponse {
   optional error.Error error = 1; // Объект ошибки
-  optional int32 id = 2;           // Идентификатор пользователя
+  optional bytes id = 2;           // Идентификатор пользователя
   optional Tokens token = 3;       // Токены доступа
 }
 

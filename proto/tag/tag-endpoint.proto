@@ -25,7 +25,7 @@ service TagEndpoint {
 }
 
 message Tag {
-  int32 id = 1;                                   // Идентификатор подкатегории
+  bytes id = 1;                                   // Идентификатор подкатегории
   string name = 2;                                // Название подкатегории
   int32 accountGroupID = 3;                       // Идентификатор группы счетов
   google.protobuf.Timestamp datetimeCreate = 4;  // Дата и время создания
@@ -50,12 +50,12 @@ message CreateTagRequest {
 
 message CreateTagResponse {
   optional error.Error error = 1; // Объект ошибки
-  optional int32 id = 2;          // Идентификатор подкатегории
+  optional bytes id = 2;          // Идентификатор подкатегории
 }
 
 message UpdateTagRequest {
   string accessToken = 1;  // Токен доступа
-  int32 id = 2;            // Идентификатор подкатегории
+  bytes id = 2;            // Идентификатор подкатегории
   optional string name = 3; // Название подкатегории
 }
 
@@ -65,7 +65,7 @@ message UpdateTagResponse {
 
 message DeleteTagRequest {
   string accessToken = 1; // Токен доступа
-  int32 id = 2;           // Идентификатор подкатегории
+  bytes id = 2;           // Идентификатор подкатегории
 }
 
 message DeleteTagResponse {
@@ -79,4 +79,3 @@ message GetTagsToTransactionsRequest {
 message GetTagsToTransactionsResponse {
   optional error.Error error = 1; // Объект ошибки
 }
-

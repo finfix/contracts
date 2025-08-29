@@ -30,7 +30,7 @@ message AccountBudget {
 }
 
 message Account {
-  int32 id = 1;                                    // Идентификатор счета
+  bytes id = 1;                                    // Идентификатор счета
   string name = 2;                                 // Название счета
   accountType.AccountType type = 3;               // Тип счета
   string currency = 4;                             // Валюта счета
@@ -82,7 +82,7 @@ message CreateAccountRequest {
 
 message CreateAccountResponse {
   optional error.Error error = 1;              // Объект ошибки
-  optional int32 id = 2;                       // Идентификатор созданного счета
+  optional bytes id = 2;                       // Идентификатор созданного счета
   optional int32 serialNumber = 3;             // Порядковый номер счета
   optional int32 balancingAccountID = 4;       // Идентификатор балансировочного счета
   optional int32 balancingAccountSerialNumber = 5; // Порядковый номер балансировочного счета
@@ -91,7 +91,7 @@ message CreateAccountResponse {
 
 message UpdateAccountRequest {
   string accessToken = 1;                     // Токен доступа
-  int32 id = 2;                               // Идентификатор счета
+  bytes id = 2;                               // Идентификатор счета
   optional string name = 3;                   // Название счета
   optional bool accountingInCharts = 4;       // Будет ли счет учитываться в графиках
   optional bool accountingInHeader = 5;       // Будет ли счет учитываться в статистике
@@ -110,7 +110,7 @@ message UpdateAccountResponse {
 
 message DeleteAccountRequest {
   string accessToken = 1; // Токен доступа
-  int32 id = 2;           // Идентификатор счета
+  bytes id = 2;           // Идентификатор счета
 }
 
 message DeleteAccountResponse {
