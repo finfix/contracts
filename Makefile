@@ -9,3 +9,18 @@ build-vue:
 prepare-building-vue:
 	if [ ! -d "vue-client-grpc-local" ]; then mkdir vue-client-grpc-local; fi
 	cd vue-client-grpc-local && npm install --save-dev @protobuf-ts/plugin && npm install @protobuf-ts/runtime
+
+build-swift:
+	protoc \
+		--swift_out=swift-grpc-local \
+		--grpc-swift_out=swift-grpc-local \
+		--swift_opt=Visibility=Public \
+		--plugin=protoc-gen-grpc-swift=/opt/homebrew/Cellar/protoc-gen-grpc-swift/2.1.1/bin/protoc-gen-grpc-swift-2 \
+		--grpc-swift_opt=Visibility=Public,Client=true,Server=false \
+		./proto/*/*.proto
+
+build-desc:
+	protoc \
+		--descriptor_set_out=output.desc \
+ 		--include_imports \
+ 		./proto/*/*.proto
