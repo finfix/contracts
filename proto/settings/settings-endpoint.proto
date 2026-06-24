@@ -32,9 +32,9 @@ message Currency {
 }
 
 message Icon {
-  bytes id = 1;    // ID иконки
-  string name = 2; // Название иконки
-  string url = 3;  // URL иконки
+  bytes id = 1;     // ID иконки
+  string name = 2;  // Название иконки
+  bytes image = 3;  // Содержимое изображения (PNG/SVG/...)
 }
 
 message Notification {
