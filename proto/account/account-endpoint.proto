@@ -42,10 +42,11 @@ message Account {
   bytes parentAccountID = 10;                      // Идентификатор родительского аккаунта
   bool isParent = 11;                              // Является ли счет родительским
   bytes iconID = 12;                               // Идентификатор иконки
-  uint32 serialNumber = 13;                         // Порядковый номер счета
+  reserved 13;                                     // serialNumber (удалено, порядок теперь задаётся строкой rank)
   bytes createdByUserID = 14;                      // Идентификатор пользователя, создавшего счет
   google.protobuf.Timestamp datetimeCreate = 15;  // Дата и время создания счета
   optional AccountBudget budget = 16;              // Бюджет
+  string rank = 17;                                // Ранг для сортировки счетов (лексикографический, задаётся клиентом)
 }
 
 message GetAccountsRequest {
@@ -79,12 +80,12 @@ message CreateAccountRequest {
   optional bytes parentAccountID = 12;         // Идентификатор родительского счета
   reserved 13;                                 // remainder (удалено, баланс задаётся только через CreateTransaction)
   optional AccountBudget budget = 14;          // Бюджет
+  string rank = 15;                            // Ранг для сортировки счетов (лексикографический, задаётся клиентом)
 }
 
 message CreateAccountResponse {
   optional error.Error error = 1;              // Объект ошибки
-  optional uint32 serialNumber = 2;             // Порядковый номер счета
-  reserved 3, 4, 5;                             // balancingAccountID, balancingAccountSerialNumber, balancingTransactionID (удалено)
+  reserved 2, 3, 4, 5;                          // serialNumber, balancingAccountID, balancingAccountSerialNumber, balancingTransactionID (удалено)
 }
 
 message UpdateAccountRequest {
@@ -97,9 +98,10 @@ message UpdateAccountRequest {
   optional bytes iconID = 7;                  // Идентификатор иконки
   optional bytes parentAccountID = 8;         // Идентификатор родительского счета
   reserved 9;                                 // remainder (удалено, баланс задаётся только через CreateTransaction)
-  optional uint32 serialNumber = 10;           // Порядковый номер счета
+  reserved 10;                                // serialNumber (удалено, порядок теперь задаётся строкой rank)
   optional bool visible = 11;                 // Видимость счета
   UpdateAccountBudgetRequest budget = 12;         // Месячный бюджет
+  optional string rank = 13;                  // Ранг для сортировки счетов (лексикографический, задаётся клиентом)
 }
 
 message UpdateAccountBudgetRequest {
