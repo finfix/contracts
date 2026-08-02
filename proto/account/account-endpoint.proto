@@ -77,16 +77,14 @@ message CreateAccountRequest {
   bool isParent = 10;                           // Является ли счет родительским
   google.protobuf.Timestamp datetimeCreate = 11; // Дата создания счета
   optional bytes parentAccountID = 12;         // Идентификатор родительского счета
-  optional double remainder = 13;              // Остаток средств на счету
+  reserved 13;                                 // remainder (удалено, баланс задаётся только через CreateTransaction)
   optional AccountBudget budget = 14;          // Бюджет
 }
 
 message CreateAccountResponse {
   optional error.Error error = 1;              // Объект ошибки
   optional uint32 serialNumber = 2;             // Порядковый номер счета
-  optional bytes balancingAccountID = 3;       // Идентификатор балансировочного счета
-  optional uint32 balancingAccountSerialNumber = 4; // Порядковый номер балансировочного счета
-  optional bytes balancingTransactionID = 5;   // Идентификатор транзакции балансировки
+  reserved 3, 4, 5;                             // balancingAccountID, balancingAccountSerialNumber, balancingTransactionID (удалено)
 }
 
 message UpdateAccountRequest {
@@ -98,7 +96,7 @@ message UpdateAccountRequest {
   optional string currency = 6;           // Валюта счета
   optional bytes iconID = 7;                  // Идентификатор иконки
   optional bytes parentAccountID = 8;         // Идентификатор родительского счета
-  optional double remainder = 9;              // Остаток средств на счету
+  reserved 9;                                 // remainder (удалено, баланс задаётся только через CreateTransaction)
   optional uint32 serialNumber = 10;           // Порядковый номер счета
   optional bool visible = 11;                 // Видимость счета
   UpdateAccountBudgetRequest budget = 12;         // Месячный бюджет
