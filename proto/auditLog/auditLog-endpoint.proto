@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package auditLog;
+
+option go_package = "/proto";
+
+import "proto/error/error.proto";
+import "google/protobuf/timestamp.proto";
+
+service AuditLogEndpoint {
+  // GetAuditLogs получение записей аудит-лога, доступных пользователю по группам счетов
+  rpc GetAuditLogs (GetAuditLogsRequest) returns (GetAuditLogsResponse) {}
+}
+
+enum AuditLogEntity {
+  Unspecified = 0;
+  Transaction = 1;   // Транзакция
+  Account = 2;       // Счет
+  AccountGroup = 3;  // Группа счетов
+  Tag = 4;           // Подкатегория
+  User = 5;          // Пользователь
+  Currency = 6;       // Валюта
+}
+
+enum AuditLogMethod {
+  MethodUnspecified = 0;
+  Create = 1; // Создание
+  Update = 2; // Обновление
+  Delete = 3; // Удаление
+}
+
+message AuditLog {
+  uint32 id = 1;                                    // Числовой идентификатор записи
+  AuditLogEntity entity = 2;                         // Название сущности
+  AuditLogMethod method = 3;                         // Метод изменения
+  string entityID = 4;                               // Идентификатор сущности (без FK)
+  optional bytes snapshotBefore = 5;                 // Слепок сущности до изменения в формате JSON
+  optional bytes snapshotAfter = 6;                  // Слепок сущности после изменения в формате JSON
+  bytes userID = 7;                                  // Идентификатор пользователя, совершившего действие
+  string deviceID = 8;                               // Идентификатор устройства, с которого совершено действие
+  optional bytes accountGroupID = 9;                 // Идентификатор группы счетов (отсутствует для глобальных сущностей)
+  google.protobuf.Timestamp datetimeCreate = 10;    // Дата и время изменения
+}
+
+message GetAuditLogsRequest {
+  string accessToken = 1;                 // Токен доступа
+  optional bytes accountGroupID = 2;      // Фильтр по группе счетов (должна быть доступна пользователю)
+  optional AuditLogEntity entity = 3;     // Фильтр по названию сущности
+  optional AuditLogMethod method = 4;     // Фильтр по методу изменения
+  optional string entityID = 5;           // Фильтр по идентификатору сущности
+  optional uint32 limit = 6;              // Ограничение количества записей
+  optional uint32 offset = 7;             // Смещение выборки
+}
+
+message GetAuditLogsResponse {
+  optional error.Error error = 1;   // Объект ошибки
+  repeated AuditLog auditLogs = 2;  // Список записей аудит-лога
+}
