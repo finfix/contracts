@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package accountBudget;
+
+option go_package = "/proto";
+
+import "proto/error/error.proto";
+import "google/protobuf/timestamp.proto";
+
+service AccountBudgetEndpoint {
+  // CreateAccountBudget создание новой версии бюджета счета, действующей с указанной даты
+  rpc CreateAccountBudget (CreateAccountBudgetRequest) returns (CreateAccountBudgetResponse) {}
+
+  // GetAccountBudgets получение всех версий бюджета по всем счетам доступных пользователю групп счетов
+  rpc GetAccountBudgets (GetAccountBudgetsRequest) returns (GetAccountBudgetsResponse) {}
+}
+
+message AccountBudget {
+  bytes id = 1;                                    // Идентификатор версии бюджета
+  bytes accountID = 2;                             // Идентификатор счета
+  double amount = 3;                               // Сумма бюджета
+  double fixedSum = 4;                             // Фиксированная сумма
+  uint32 daysOffset = 5;                           // Смещение в днях
+  bool gradualFilling = 6;                         // Заполняется ли бюджет постепенно
+  google.protobuf.Timestamp effectiveFrom = 7;    // Дата, с которой действует эта версия бюджета
+  bytes createdByUserID = 8;                       // Идентификатор пользователя, создавшего версию
+  google.protobuf.Timestamp datetimeCreate = 9;   // Дата и время создания версии
+  bytes accountGroupID = 10;                       // Идентификатор группы счетов
+}
+
+message CreateAccountBudgetRequest {
+  string accessToken = 1;                         // Токен доступа
+  bytes id = 2;                                    // Идентификатор версии бюджета
+  bytes accountID = 3;                             // Идентификатор счета
+  double amount = 4;                               // Сумма бюджета
+  double fixedSum = 5;                             // Фиксированная сумма
+  uint32 daysOffset = 6;                           // Смещение в днях
+  bool gradualFilling = 7;                         // Заполняется ли бюджет постепенно
+  google.protobuf.Timestamp effectiveFrom = 8;    // Дата, с которой действует эта версия бюджета
+}
+
+message CreateAccountBudgetResponse {
+  optional error.Error error = 1; // Объект ошибки
+}
+
+message GetAccountBudgetsRequest {
+  string accessToken = 1;                          // Токен доступа
+  repeated bytes accountGroupIDs = 2;              // Идентификаторы групп счетов (пусто - все доступные пользователю группы)
+  optional google.protobuf.Timestamp dateFrom = 3; // Дата, от которой показывать версии бюджета
+  optional google.protobuf.Timestamp dateTo = 4;   // Дата, до которой показывать версии бюджета
+}
+
+message GetAccountBudgetsResponse {
+  optional error.Error error = 1;      // Объект ошибки
+  repeated AccountBudget budgets = 2;  // Все версии бюджета по всем счетам запрошенных групп счетов
+}

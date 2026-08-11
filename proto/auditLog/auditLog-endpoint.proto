@@ -20,6 +20,7 @@ enum AuditLogEntity {
   Tag = 4;           // Подкатегория
   User = 5;          // Пользователь
   Currency = 6;       // Валюта
+  AccountBudget = 7; // Версия бюджета счета
 }
 
 enum AuditLogMethod {

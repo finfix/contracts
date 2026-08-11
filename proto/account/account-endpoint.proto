@@ -22,13 +22,6 @@ service AccountEndpoint {
   rpc DeleteAccount (DeleteAccountRequest) returns (DeleteAccountResponse) {}
 }
 
-message AccountBudget {
-  double amount = 1;           // Сумма бюджета
-  uint32 daysOffset = 2;        // Смещение в днях
-  double fixedSum = 3;         // Фиксированная сумма
-  bool gradualFilling = 4;     // Постепенное пополнение
-}
-
 message Account {
   bytes id = 1;                                    // Идентификатор счета
   string name = 2;                                 // Название счета
@@ -45,7 +38,7 @@ message Account {
   reserved 13;                                     // serialNumber (удалено, порядок теперь задаётся строкой rank)
   bytes createdByUserID = 14;                      // Идентификатор пользователя, создавшего счет
   google.protobuf.Timestamp datetimeCreate = 15;  // Дата и время создания счета
-  optional AccountBudget budget = 16;              // Бюджет
+  reserved 16;                                     // budget (удалено, бюджет теперь отдельная сущность accountBudget.AccountBudget)
   string rank = 17;                                // Ранг для сортировки счетов (лексикографический, задаётся клиентом)
 }
 
@@ -79,7 +72,7 @@ message CreateAccountRequest {
   google.protobuf.Timestamp datetimeCreate = 11; // Дата создания счета
   optional bytes parentAccountID = 12;         // Идентификатор родительского счета
   reserved 13;                                 // remainder (удалено, баланс задаётся только через CreateTransaction)
-  optional AccountBudget budget = 14;          // Бюджет
+  reserved 14;                                 // budget (удалено, бюджет теперь отдельная сущность accountBudget.AccountBudget)
   string rank = 15;                            // Ранг для сортировки счетов (лексикографический, задаётся клиентом)
 }
 
@@ -100,15 +93,8 @@ message UpdateAccountRequest {
   reserved 9;                                 // remainder (удалено, баланс задаётся только через CreateTransaction)
   reserved 10;                                // serialNumber (удалено, порядок теперь задаётся строкой rank)
   optional bool visible = 11;                 // Видимость счета
-  UpdateAccountBudgetRequest budget = 12;         // Месячный бюджет
+  reserved 12;                                // budget (удалено, бюджет теперь отдельная сущность accountBudget.AccountBudget)
   optional string rank = 13;                  // Ранг для сортировки счетов (лексикографический, задаётся клиентом)
-}
-
-message UpdateAccountBudgetRequest {
-  optional double amount = 1;           // Сумма бюджета
-  optional uint32 daysOffset = 2;        // Смещение в днях
-  optional double fixedSum = 3;         // Фиксированная сумма
-  optional bool gradualFilling = 4;     // Постепенное пополнение
 }
 
 message UpdateAccountResponse {
