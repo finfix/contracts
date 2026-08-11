@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package sync;
+
+option go_package = "/proto";
+
+import "proto/error/error.proto";
+import "proto/transaction/transaction-endpoint.proto";
+import "proto/account/account-endpoint.proto";
+import "proto/accountGroup/accountGroup-endpoint.proto";
+import "proto/tag/tag-endpoint.proto";
+import "proto/accountBudget/accountBudget-endpoint.proto";
+import "proto/user/user-endpoint.proto";
+import "proto/settings/settings-endpoint.proto";
+
+service SyncEndpoint {
+  // Sync атомарно получает все изменения, доступные пользователю по группам счетов, произошедшие
+  // после чекпоинта, переданного клиентом. Хранение чекпоинта - на стороне клиента. Возвращённый
+  // pendingCheckpoint/pendingSyncToken нужно подтвердить вызовом ConfirmSync после того, как
+  // клиент корректно применит полученные изменения у себя
+  rpc Sync (SyncRequest) returns (SyncResponse) {}
+
+  // ConfirmSync подтверждает, что клиент корректно применил изменения, полученные последним
+  // вызовом Sync, и просит бэкенд запомнить новый чекпоинт устройства
+  rpc ConfirmSync (ConfirmSyncRequest) returns (ConfirmSyncResponse) {}
+}
+
+message SyncRequest {
+  string accessToken = 1; // Токен доступа
+  uint32 sinceID = 2;     // Чекпоинт устройства, хранящийся на клиенте - идентификатор последней подтвержденной записи аудит-лога
+}
+
+message SyncResponse {
+  optional error.Error error = 1; // Объект ошибки
+
+  uint32 pendingCheckpoint = 2; // Новый чекпоинт, который нужно подтвердить вызовом ConfirmSync после применения изменений
+  bytes pendingSyncToken = 3;   // Опорный токен этого ответа, передается в ConfirmSync. Пустой, если изменений не было
+  bool hasChanges = 4;          // true, если в ответе есть изменения (pendingCheckpoint больше sinceID из запроса)
+
+  repeated transaction.Transaction changedTransactions = 5; // Созданные/изменённые транзакции
+  repeated bytes deletedTransactionIDs = 6;                 // Удалённые транзакции
+
+  repeated account.Account changedAccounts = 7; // Созданные/изменённые счета
+  repeated bytes deletedAccountIDs = 8;         // Удалённые счета
+
+  repeated accountGroup.AccountGroup changedAccountGroups = 9; // Созданные/изменённые группы счетов
+  repeated bytes deletedAccountGroupIDs = 10;                   // Удалённые группы счетов
+
+  repeated tag.Tag changedTags = 11;  // Созданные/изменённые подкатегории
+  repeated bytes deletedTagIDs = 12;  // Удалённые подкатегории
+
+  repeated accountBudget.AccountBudget changedAccountBudgets = 13; // Созданные версии бюджета счетов (версии не удаляются)
+
+  user.User changedUser = 14; // Измененные данные текущего пользователя, если менялись (nil, если не менялись)
+
+  repeated settings.Currency changedCurrencies = 15; // Созданные/изменённые валюты (глобальные, без привязки к группе счетов)
+}
+
+message ConfirmSyncRequest {
+  string accessToken = 1;     // Токен доступа
+  bytes pendingSyncToken = 2; // Опорный токен из ответа Sync, который нужно подтвердить
+}
+
+message ConfirmSyncResponse {
+  optional error.Error error = 1; // Объект ошибки
+}
