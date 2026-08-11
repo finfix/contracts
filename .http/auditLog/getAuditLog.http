@@ -1,0 +1,9 @@
+GRPC {{host}}/auditLog.AuditLogEndpoint/GetAuditLogs
+
+{
+  "accessToken": "{{accessToken}}",
+  "accountGroupID": "LUbfpw33Q6+TOBjauhCCsg==",
+  "limit": 20,
+  "offset": 0,
+  ""
+}

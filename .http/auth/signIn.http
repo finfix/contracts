@@ -12,7 +12,11 @@ GRPC {{host}}/auth.AuthEndpoint/SignIn
     "nameOS": "Android",
     "versionOS": "ide"
   },
-  "email": "tester@test.stest",
-  "password": "test",
+  "email": "{{ email }}",
+  "password": "{{ password }}",
   "deviceID": "12345"
 }
+
+> {%
+client.global.set("accessToken", response.body.token.accessToken);
+%}
