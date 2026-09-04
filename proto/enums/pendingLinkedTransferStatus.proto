@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package pendingLinkedTransferStatus;
+
+option go_package = "/proto";
+
+enum PendingLinkedTransferStatus {
+  Unspecified = 0;
+  Pending = 1;    // Ожидает довнесения получателем
+  Completed = 2;  // Получатель довнёс связанную транзакцию
+  Ignored = 3;    // Получатель пометил "не переносить" (не удаление — статус)
+}

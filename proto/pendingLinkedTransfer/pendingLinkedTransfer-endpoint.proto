@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package pendingLinkedTransfer;
+
+option go_package = "/proto";
+
+import "proto/error/error.proto";
+import "proto/enums/pendingLinkedTransferStatus.proto";
+
+service PendingLinkedTransferEndpoint {
+  // GetPendingLinkedTransfers получение переносов, видимых текущему пользователю — либо со
+  // стороны источника (он состоит в accountGroupID), либо со стороны получателя (targetAccountID
+  // принадлежит одному из его счетов). Видимость обеих сторон проверяется на бэкенде через
+  // членство в группе счетов (usersToAccountGroup.GetUsersToAccountGroup) — клиент только фильтрует уже
+  // выданные ему записи.
+  rpc GetPendingLinkedTransfers (GetPendingLinkedTransfersRequest) returns (GetPendingLinkedTransfersResponse) {}
+
+  // CreatePendingLinkedTransfer создаёт требование довнесения — вызывается при создании
+  // транзакции через счёт-мост (accountFrom/accountTo которой имеет Account.linkedAccountID).
+  // Бэкенд обязан провалидировать, что sourceAccountID и account, на который указывает его
+  // linkedAccountID, состоят в общей accountGroup (см. usersToAccountGroup.GetUsersToAccountGroup) —
+  // иначе запрос отклоняется.
+  rpc CreatePendingLinkedTransfer (CreatePendingLinkedTransferRequest) returns (CreatePendingLinkedTransferResponse) {}
+
+  // UpdatePendingLinkedTransfer меняет статус переноса — доступно только получателю
+  // (targetAccountID должен принадлежать вызывающему пользователю). Completed выставляется
+  // клиентом после того, как получатель сам создал свою продолжающую транзакцию (её id этим
+  // вызовом не передаётся и не хранится — довнесённая транзакция самодостаточна в своей группе).
+  // Ignored — пометка "не переносить", не удаление.
+  rpc UpdatePendingLinkedTransfer (UpdatePendingLinkedTransferRequest) returns (UpdatePendingLinkedTransferResponse) {}
+}
+
+message PendingLinkedTransfer {
+  bytes id = 1;                                                        // Идентификатор переноса
+  pendingLinkedTransferStatus.PendingLinkedTransferStatus status = 2; // Статус
+  bytes sourceTransactionID = 3;                                       // Транзакция-инициатор
+  bytes sourceAccountID = 4;                                           // Счёт-мост со стороны источника
+  bytes targetAccountID = 5;                                           // Счёт-мост со стороны получателя
+  bytes accountGroupID = 6;                                            // Группа-источник (sourceAccountID/sourceTransactionID)
+}
+
+message GetPendingLinkedTransfersRequest {
+  string accessToken = 1;                 // Токен доступа
+  repeated bytes accountGroupIDs = 2;    // Мои группы — вернёт переносы, где я источник
+  repeated bytes targetAccountIDs = 3;   // Мои счета — вернёт переносы, где я получатель
+  optional pendingLinkedTransferStatus.PendingLinkedTransferStatus status = 4; // Фильтр по статусу
+}
+
+message GetPendingLinkedTransfersResponse {
+  optional error.Error error = 1;                              // Объект ошибки
+  repeated PendingLinkedTransfer pendingLinkedTransfers = 2;   // Список переносов
+}
+
+message CreatePendingLinkedTransferRequest {
+  string accessToken = 1;         // Токен доступа
+  bytes id = 2;                   // Идентификатор переноса
+  bytes sourceTransactionID = 3;  // Транзакция-инициатор
+  bytes sourceAccountID = 4;      // Счёт-мост со стороны источника
+  bytes accountGroupID = 5;       // Группа-источник
+  // targetAccountID не передаётся клиентом — бэкенд сам резолвит его через
+  // Account(sourceAccountID).linkedAccountID, чтобы клиент не мог подделать получателя.
+}
+
+message CreatePendingLinkedTransferResponse {
+  optional error.Error error = 1; // Объект ошибки
+}
+
+message UpdatePendingLinkedTransferRequest {
+  string accessToken = 1;                                              // Токен доступа
+  bytes id = 2;                                                        // Идентификатор переноса
+  pendingLinkedTransferStatus.PendingLinkedTransferStatus status = 3; // Новый статус (Completed/Ignored)
+}
+
+message UpdatePendingLinkedTransferResponse {
+  optional error.Error error = 1; // Объект ошибки
+}

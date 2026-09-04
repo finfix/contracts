@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package usersToAccountGroup;
+
+option go_package = "/proto";
+
+import "proto/error/error.proto";
+import "google/protobuf/timestamp.proto";
+
+// Связь "пользователь состоит в группе счетов" — отдельная сущность/модуль, не часть
+// accountGroup: используется как единственная точка правды для видимости и прав доступа во всех
+// местах, где данные пересекают границу одного пользователя (счета-мосты и pendingLinkedTransfer,
+// в перспективе — любой другой шаринг данных между людьми).
+service UsersToAccountGroupEndpoint {
+  // GetUsersToAccountGroup возвращает участников группы счетов — источник кандидатов для
+  // линковки счёта-моста (account.UpdateAccountRequest.linkedAccountID) и точка проверки
+  // видимости pendingLinkedTransfer на бэкенде.
+  rpc GetUsersToAccountGroup (GetUsersToAccountGroupRequest) returns (GetUsersToAccountGroupResponse) {}
+
+  // AddUserToAccountGroup добавляет пользователя в группу счетов. Кто именно может это вызывать
+  // (только существующий участник?) и нужен ли отдельный флоу приглашения/подтверждения —
+  // определяется бэкендом, контракт этого не ограничивает.
+  rpc AddUserToAccountGroup (AddUserToAccountGroupRequest) returns (AddUserToAccountGroupResponse) {}
+
+  // RemoveUserFromAccountGroup убирает пользователя из группы счетов (выход самого пользователя,
+  // либо удаление другим участником — авторизация на бэкенде).
+  rpc RemoveUserFromAccountGroup (RemoveUserFromAccountGroupRequest) returns (RemoveUserFromAccountGroupResponse) {}
+}
+
+message UserToAccountGroup {
+  bytes accountGroupID = 1;                       // Идентификатор группы счетов
+  bytes userID = 2;                                // Идентификатор пользователя
+  google.protobuf.Timestamp datetimeCreate = 3;  // Дата и время добавления участника
+}
+
+message GetUsersToAccountGroupRequest {
+  string accessToken = 1;             // Токен доступа
+  repeated bytes accountGroupIDs = 2; // Идентификаторы групп счетов
+}
+
+message GetUsersToAccountGroupResponse {
+  optional error.Error error = 1;              // Объект ошибки
+  repeated UserToAccountGroup members = 2;    // Участники запрошенных групп
+}
+
+message AddUserToAccountGroupRequest {
+  string accessToken = 1;    // Токен доступа
+  bytes accountGroupID = 2;  // Идентификатор группы счетов
+  bytes userID = 3;           // Идентификатор добавляемого пользователя
+}
+
+message AddUserToAccountGroupResponse {
+  optional error.Error error = 1; // Объект ошибки
+}
+
+message RemoveUserFromAccountGroupRequest {
+  string accessToken = 1;    // Токен доступа
+  bytes accountGroupID = 2;  // Идентификатор группы счетов
+  bytes userID = 3;           // Идентификатор удаляемого пользователя
+}
+
+message RemoveUserFromAccountGroupResponse {
+  optional error.Error error = 1; // Объект ошибки
+}

@@ -40,6 +40,7 @@ message Account {
   google.protobuf.Timestamp datetimeCreate = 15;  // Дата и время создания счета
   reserved 16;                                     // budget (удалено, бюджет теперь отдельная сущность accountBudget.AccountBudget)
   string rank = 17;                                // Ранг для сортировки счетов (лексикографический, задаётся клиентом)
+  optional bytes linkedAccountID = 18;             // Идентификатор счёта-моста (см. UpdateAccountRequest.linkedAccountID), если счёт связан
 }
 
 message GetAccountsRequest {
@@ -95,6 +96,18 @@ message UpdateAccountRequest {
   optional bool visible = 11;                 // Видимость счета
   reserved 12;                                // budget (удалено, бюджет теперь отдельная сущность accountBudget.AccountBudget)
   optional string rank = 13;                  // Ранг для сортировки счетов (лексикографический, задаётся клиентом)
+  // Установка linkedAccountID связывает счёт в мост (счёт может принадлежать другому
+  // пользователю). Бэкенд валидирует: обе стороны ещё не связаны, совпадает валюта, разрешённая
+  // пара типов (regular-regular или expense-earnings), и что оба счёта состоят в общей
+  // accountGroup у вызывающего пользователя (см. usersToAccountGroup.GetUsersToAccountGroup) — иначе
+  // запрос отклоняется. Применяется симметрично: бэкенд сам проставляет обратную связь на втором
+  // счёте, отдельного вызова с его стороны не требуется.
+  optional bytes linkedAccountID = 14;
+  // Отсутствие linkedAccountID в запросе означает "не менять" (как и любое другое optional-поле
+  // здесь) — поэтому разрыв связи нужен явным флагом, а не просто пустым значением.
+  // true — снять linkedAccountID с обеих сторон (см. Account.linkedAccountID). Игнорируется, если
+  // linkedAccountID тоже передан в этом же запросе.
+  bool unlinkAccount = 15;
 }
 
 message UpdateAccountResponse {

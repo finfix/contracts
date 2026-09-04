@@ -12,6 +12,7 @@ import "proto/tag/tag-endpoint.proto";
 import "proto/accountBudget/accountBudget-endpoint.proto";
 import "proto/user/user-endpoint.proto";
 import "proto/settings/settings-endpoint.proto";
+import "proto/pendingLinkedTransfer/pendingLinkedTransfer-endpoint.proto";
 
 service SyncEndpoint {
   // Sync атомарно получает все изменения, доступные пользователю по группам счетов, произошедшие
