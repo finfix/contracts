@@ -5,6 +5,15 @@ inputs:
   repo-path:
     description: 'Path to repository'
     required: true
+  repo-url:
+    description: 'Git repository URL (without scheme), e.g. github.com/owner/repo'
+    required: true
+  token:
+    description: 'Git token'
+    required: true
+  user:
+    description: 'Git username'
+    required: true
   commit-sha:
     description: 'Commit SHA'
     required: true
@@ -37,6 +46,7 @@ runs:
         cd ${{ inputs.repo-path }}
         git config --global user.email "${{ inputs.user-email }}"
         git config --global user.name "${{ inputs.user-name }}"
+        git remote set-url origin "https://${{ inputs.user }}:${{ inputs.token }}@${{ inputs.repo-url }}.git"
 
     - name: Clear old compiled files
       shell: bash

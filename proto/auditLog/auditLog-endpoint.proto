@@ -21,6 +21,7 @@ enum AuditLogEntity {
   User = 5;          // Пользователь
   Currency = 6;       // Валюта
   AccountBudget = 7; // Версия бюджета счета
+  PendingLinkedTransfer = 8; // Требование довнесения транзакции через счёт-мост
 }
 
 enum AuditLogMethod {

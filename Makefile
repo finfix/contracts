@@ -12,10 +12,11 @@ prepare-building-vue:
 
 build-swift:
 	protoc \
+		-I ./ \
 		--swift_out=swift-grpc-local \
 		--grpc-swift_out=swift-grpc-local \
 		--swift_opt=Visibility=Public \
-		--plugin=protoc-gen-grpc-swift=/opt/homebrew/Cellar/protoc-gen-grpc-swift/2.1.1/bin/protoc-gen-grpc-swift-2 \
+		--plugin=protoc-gen-grpc-swift=/opt/homebrew/opt/protoc-gen-grpc-swift/bin/protoc-gen-grpc-swift-2 \
 		--grpc-swift_opt=Visibility=Public,Client=true,Server=false \
 		./proto/*/*.proto
 

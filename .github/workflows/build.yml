@@ -91,6 +91,8 @@ jobs:
     name: Push Go Server Changes
     needs: [server-build, client-build]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -98,6 +100,9 @@ jobs:
         uses: ./.github/actions/commit-changes
         with:
           repo-path: ${{ env.SERVER_GRPC_REPO_PATH }}
+          repo-url: ${{ env.SERVER_GRPC_REPO_URL }}
+          token: ${{ secrets.PAT_TOKEN }}
+          user: ${{ env.USER }}
           artifact-name: ${{ env.SERVER_ARTIFACT_NAME_WITH_PROTO }}
           commit-sha: ${{ github.sha }}
           tag-version: ${{ github.ref_name }}
@@ -108,6 +113,8 @@ jobs:
     name: Push Swift Client Changes
     needs: [server-build, client-build]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -115,6 +122,9 @@ jobs:
         uses: ./.github/actions/commit-changes
         with:
           repo-path: ${{ env.CLIENT_GRPC_REPO_PATH }}
+          repo-url: ${{ env.CLIENT_GRPC_REPO_URL }}
+          token: ${{ secrets.PAT_TOKEN }}
+          user: ${{ env.USER }}
           artifact-name: ${{ env.CLIENT_ARTIFACT_NAME_WITH_PROTO }}
           commit-sha: ${{ github.sha }}
           tag-version: ${{ github.ref_name }}

@@ -55,6 +55,8 @@ message SyncResponse {
   user.User changedUser = 14; // Измененные данные текущего пользователя, если менялись (nil, если не менялись)
 
   repeated settings.Currency changedCurrencies = 15; // Созданные/изменённые валюты (глобальные, без привязки к группе счетов)
+
+  repeated pendingLinkedTransfer.PendingLinkedTransfer changedPendingLinkedTransfers = 16; // Созданные/изменённые переносы (не удаляются, см. status)
 }
 
 message ConfirmSyncRequest {
