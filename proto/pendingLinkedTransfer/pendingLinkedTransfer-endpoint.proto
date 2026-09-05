@@ -18,6 +18,9 @@ service PendingLinkedTransferEndpoint {
 
   // UpdatePendingLinkedTransfer меняет статус переноса (Completed/Ignored)
   rpc UpdatePendingLinkedTransfer (UpdatePendingLinkedTransferRequest) returns (UpdatePendingLinkedTransferResponse) {}
+
+  // DeletePendingLinkedTransfer удаляет перенос (например, если удалили саму транзакцию-инициатор)
+  rpc DeletePendingLinkedTransfer (DeletePendingLinkedTransferRequest) returns (DeletePendingLinkedTransferResponse) {}
 }
 
 message PendingLinkedTransfer {
@@ -61,5 +64,14 @@ message UpdatePendingLinkedTransferRequest {
 }
 
 message UpdatePendingLinkedTransferResponse {
+  optional error.Error error = 1; // Объект ошибки
+}
+
+message DeletePendingLinkedTransferRequest {
+  string accessToken = 1; // Токен доступа
+  bytes id = 2;            // Идентификатор переноса
+}
+
+message DeletePendingLinkedTransferResponse {
   optional error.Error error = 1; // Объект ошибки
 }

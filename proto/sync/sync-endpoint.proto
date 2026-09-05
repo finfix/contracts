@@ -56,7 +56,9 @@ message SyncResponse {
 
   repeated settings.Currency changedCurrencies = 15; // Созданные/изменённые валюты (глобальные, без привязки к группе счетов)
 
-  repeated pendingLinkedTransfer.PendingLinkedTransfer changedPendingLinkedTransfers = 16; // Созданные/изменённые переносы (не удаляются, см. status)
+  repeated pendingLinkedTransfer.PendingLinkedTransfer changedPendingLinkedTransfers = 16; // Созданные/изменённые переносы
+
+  repeated bytes deletedPendingLinkedTransferIDs = 17; // Удалённые переносы (например, вместе с удалённой транзакцией-инициатором)
 }
 
 message ConfirmSyncRequest {
