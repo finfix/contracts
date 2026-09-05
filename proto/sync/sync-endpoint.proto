@@ -24,6 +24,14 @@ service SyncEndpoint {
   // ConfirmSync подтверждает, что клиент корректно применил изменения, полученные последним
   // вызовом Sync, и просит бэкенд запомнить новый чекпоинт устройства
   rpc ConfirmSync (ConfirmSyncRequest) returns (ConfirmSyncResponse) {}
+
+  // SubscribeToSync — server-streaming уведомитель: держит соединение открытым и присылает
+  // пустой SyncNotification каждый раз, когда для пользователя появились изменения (создана
+  // новая релевантная запись аудит-лога). НЕ несёт сам payload изменений — получив сигнал,
+  // клиент должен сам вызвать обычный Sync/ConfirmSync. Предназначен для мгновенного отклика,
+  // пока приложение на переднем плане — клиент отключается при уходе в фон и переиспользует
+  // обычный периодический Sync как fallback.
+  rpc SubscribeToSync (SubscribeToSyncRequest) returns (stream SyncNotification) {}
 }
 
 message SyncRequest {
@@ -68,4 +76,12 @@ message ConfirmSyncRequest {
 
 message ConfirmSyncResponse {
   optional error.Error error = 1; // Объект ошибки
+}
+
+message SubscribeToSyncRequest {
+  string accessToken = 1; // Токен доступа
+}
+
+// Пустое сообщение-сигнал — "у тебя есть что засинкать", без самих данных.
+message SyncNotification {
 }
