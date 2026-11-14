@@ -25,7 +25,7 @@ env:
 jobs:
   clone-server-grpc-repo:
     name: Clone current gRPC-Server
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
@@ -42,7 +42,7 @@ jobs:
 
   clone-client-grpc-repo:
     name: Clone current gRPC-Client
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
@@ -60,7 +60,7 @@ jobs:
   server-build:
     name: Build Go Server
     needs: [clone-server-grpc-repo, clone-client-grpc-repo]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -75,7 +75,7 @@ jobs:
   client-build:
     name: Build Swift Client
     needs: [clone-server-grpc-repo, clone-client-grpc-repo]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -90,7 +90,7 @@ jobs:
   commit-server:
     name: Push Go Server Changes
     needs: [server-build, client-build]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
@@ -112,7 +112,7 @@ jobs:
   commit-client:
     name: Push Swift Client Changes
     needs: [server-build, client-build]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
