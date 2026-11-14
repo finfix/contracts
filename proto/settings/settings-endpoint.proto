@@ -79,7 +79,7 @@ message GetCurrencyRatesRequest {
 message GetCurrencyRatesResponse {
   optional error.Error error = 1;             // Объект ошибки
   repeated CurrencyRate rates = 2;            // Точки по возрастанию момента
-  bool hasMore = 3;                           // Есть ещё точки: запросить снова с since = последний validAt
+  bool truncated = 3;                         // Есть ещё точки: запросить снова с since = последний validAt
 }
 
 message GetIconsRequest {
