@@ -6,6 +6,7 @@ option go_package = "/proto";
 
 import "proto/error/error.proto";
 import "proto/enums/applicationType.proto";
+import "google/protobuf/timestamp.proto";
 
 service SettingsEndpoint {
   // GetCurrencies получение списка валют
@@ -20,6 +21,9 @@ service SettingsEndpoint {
   // SendNotification отправка уведомления пользователю
   rpc SendNotification (SendNotificationRequest) returns (SendNotificationResponse) {}
 
+  // GetCurrencyRates история курсов валют: точки после момента since, по возрастанию момента
+  rpc GetCurrencyRates (GetCurrencyRatesRequest) returns (GetCurrencyRatesResponse) {}
+
   // GetVersion получение текущей версии сервера
   rpc GetVersion (GetVersionRequest) returns (GetVersionResponse) {}
 }
@@ -29,6 +33,13 @@ message Currency {
   string name = 2;    // Название валюты
   string symbol = 3;  // Символ валюты
   double rate = 4;    // Курс валюты
+}
+
+// CurrencyRate — точка истории курса: с момента validAt валюта стоит rate единиц за 1 USD
+message CurrencyRate {
+  string isoCode = 1;                         // Код валюты
+  google.protobuf.Timestamp validAt = 2;      // С какого момента действует курс
+  string rate = 3;                            // Единиц валюты за 1 USD, десятичная строка полной точности
 }
 
 message Icon {
@@ -56,6 +67,19 @@ message GetCurrenciesRequest {
 message GetCurrenciesResponse {
   optional error.Error error = 1; // Объект ошибки
   repeated Currency currencies = 2; // Список валют
+}
+
+message GetCurrencyRatesRequest {
+  string accessToken = 1;                     // Токен доступа
+  repeated string isoCodes = 2;               // Валюты, пусто — все
+  optional google.protobuf.Timestamp since = 3; // Только точки строго позже этого момента; нет — вся история
+  uint32 limit = 4;                           // Сколько точек вернуть, 0 — по умолчанию (10 000), максимум 10 000
+}
+
+message GetCurrencyRatesResponse {
+  optional error.Error error = 1;             // Объект ошибки
+  repeated CurrencyRate rates = 2;            // Точки по возрастанию момента
+  bool hasMore = 3;                           // Есть ещё точки: запросить снова с since = последний validAt
 }
 
 message GetIconsRequest {
